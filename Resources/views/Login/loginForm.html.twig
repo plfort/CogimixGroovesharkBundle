@@ -1,0 +1,7 @@
+{% if error is defined %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<form action="{{ path('_grooveshark_login')  }}" action="POST">
+  {{ form_row(form) }}
+  <input type="submit" class="btn"  value="Login" />
+</form>

@@ -1,0 +1,9 @@
+<ul id="gs-playlist-list">
+{% if playlists is not empty %}
+    {% for item in playlists %}
+        {% include 'CogimixGroovesharkBundle:Playlist:item.html.twig' %}
+    {% endfor %}
+{% else %}
+<li>No Grooveshark playlist</li>
+{% endif %}
+</ul>

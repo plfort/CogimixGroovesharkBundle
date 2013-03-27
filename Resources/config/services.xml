@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+  <parameters>
+        <parameter key="grooveshark.api.class">Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPI</parameter>
+    </parameters>
+		<services>
+		    
+		   <service id="grooveshark.api_factory" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPIFactory">
+              <argument type="string">%grooveshark.api.key%</argument>
+              <argument type="string">%grooveshark.api.secret%</argument>
+              <argument type="string">%grooveshark.api.class%</argument>
+              <argument type="service" id="service_container"/>
+		   </service>
+		   
+		   
+		   <service id="grooveshark_music.playlist_renderer" class="Cogipix\CogimixGroovesharkBundle\Services\PlaylistRenderer">
+                <argument type="service" id="grooveshark.api"/>
+                <tag name="cogimix.playlist_renderer"/>
+           </service>
+           
+		   
+			<service id="grooveshark.api" factory-method="getGroovesharkAPI"
+			factory-service="grooveshark.api_factory" class="%grooveshark.api.class%">			    
+			</service>
+           <service id="grooveshark_music.search_service" parent="abstract_music_seach" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkSongMusicSearch">
+                <argument type="service" id="grooveshark.api"/>
+                <tag name="cogimix.service" alias="gsservice"/>
+           </service>
+    
+		</services>
+</container>
