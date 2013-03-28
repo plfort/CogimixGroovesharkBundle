@@ -4,9 +4,6 @@ namespace Cogipix\CogimixGroovesharkBundle\Services;
 use Cogipix\CogimixBundle\Entity\TrackResult;
 
 
-
-use Cogipix\CogimixGroovesharkBundle\lib\Grooveshark\gsSearch;
-
 use Cogipix\CogimixBundle\Services\AbstractMusicSearch;
 
 class GroovesharkSongMusicSearch extends AbstractMusicSearch{
@@ -14,7 +11,7 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
     private $gsSearch;
 
     public function __construct($gsApi){
-        $this->gsSearch=new gsSearch($gsApi);
+        $this->gsSearch=new \gsSearch($gsApi);
     }
 
     protected function parseResponse($results){
@@ -48,6 +45,10 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 
     public function  getName(){
         return 'Grooveshark';
+    }
+
+    public function  getAlias(){
+        return 'gsservice';
     }
 
     public function getResultTag(){

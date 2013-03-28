@@ -21,7 +21,6 @@ class GroovesharkAPIFactory{
     public function getGroovesharkAPI(){
 
         $gsapi= new $this->apiClass($this->key,$this->secret);
-        $this->container->get('logger')->debug( $gsapi::$ws_key.' '.$gsapi::$ws_secret );
         $session=$this->container->get('session');
         if ($session->get('gsSession',false)) {
             $gsapi->setSession($session->get('gsSession'));

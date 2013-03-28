@@ -2,10 +2,11 @@
 namespace Cogipix\CogimixGroovesharkBundle\Services;
 
 
-class PlaylistRenderer{
+use Cogipix\CogimixBundle\Services\PlaylistRendererInterface;
+
+class PlaylistRenderer implements PlaylistRendererInterface{
 
     private $gsApi;
-
 
     public function __construct($gsApi){
         $this->gsApi = $gsApi;

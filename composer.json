@@ -1,20 +1,10 @@
 {
     "name": "cogipix/cogimixgroovehsark",
     "type": "symfony-bundle",
-    "repositories": [
+    "authors": [
         {
-            "type": "package",
-            "package": {
-	             "name": "fastest963/grooveshark-api",
-	             "version": "1.0.0",
-	             "dist": {
-	               "url": "https://github.com/fastest963/GroovesharkAPI-PHP/archive/master.zip",
-	               "type": "zip"
-	             },
-	             "autoload": {
-	             	"classmap": [""]
-	             }
-            }
+            "name": "Pierre-Louis FORT",
+            "email": "plfort@cogipix.com"
         }
     ],
     "require": {

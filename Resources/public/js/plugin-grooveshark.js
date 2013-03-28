@@ -136,7 +136,34 @@ $(document).ready(function(){
 		},'json');
 		return false;
 	});
-	
+	 $("#loginGroovesharkBtn").click(function(event){
+    	 $.get(Routing.generate('_grooveshark_login'),
+            	 function(response){
+    		    if(response.success==true){
+    		    	 $("#loginGroovesharkModal > .modal-body").html(response.data.htmlForm);
+    		    	 $("#loginGroovesharkModal").modal('toggle');
+        		    }
+        	 },'json');
+    	    return false;
+	 });
+
+	 $("#loginGroovesharkModal").on('submit','form',function(event){
+		var postData = $(this).serialize();
+		 $.post(Routing.generate('_grooveshark_login'),
+				 postData,
+        		 function(response){
+			    if(response.success==true){
+			    	 $("#loginGroovesharkModal").modal('toggle');
+			    	 $("#loginGroovesharkBtn").after(response.data.playlistsHtml);
+			    	 $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
+			    	 $("#loginGroovesharkBtn").remove();
+    			}else{
+    				 $("#loginGroovesharkModal > .modal-body").html(response.data.htmlForm);
+        		}
+    		 },'json');
+
+		    return false;
+     });
     $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
 });
 

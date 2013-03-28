@@ -27,7 +27,7 @@
 			</service>
            <service id="grooveshark_music.search_service" parent="abstract_music_seach" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkSongMusicSearch">
                 <argument type="service" id="grooveshark.api"/>
-                <tag name="cogimix.service" alias="gsservice"/>
+                <tag name="cogimix.plugin" />
            </service>
     
 		</services>
