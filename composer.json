@@ -1,5 +1,6 @@
 {
     "name": "cogipix/cogimixgroovehsark",
+    "type": "symfony-bundle",
     "require": {
        "php": ">=5.3.3"
     },
