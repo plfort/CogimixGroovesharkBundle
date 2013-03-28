@@ -6,5 +6,6 @@
     },
     "autoload": {
         "psr-0": {"Cogipix\\CogimixGroovesharkBundle": ""}
-    }
+    },
+    "target-dir": "Cogipix/CogimixGroovesharkBundle",
 }
