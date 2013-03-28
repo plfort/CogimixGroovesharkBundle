@@ -1,0 +1,6 @@
+{
+    "name": "cogipix/cogimixgroovehsark",
+    "require": {
+       "php": ">=5.3.3"
+    }
+}
