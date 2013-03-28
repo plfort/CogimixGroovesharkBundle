@@ -19,7 +19,7 @@
     ],
     "require": {
        "php": ">=5.3.3",
-       "fastest963/grooveshark-api": "1.0.0"
+       "fastest963/grooveshark-api": "1.0.*"
     },
     "autoload": {
         "psr-0": {"Cogipix\\CogimixGroovesharkBundle": ""}
