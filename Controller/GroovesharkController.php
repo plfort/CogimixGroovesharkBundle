@@ -1,6 +1,8 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use Cogipix\CogimixBundle\Entity\TrackResult;
 
 use Cogipix\CogimixBundle\Controller\AbstractController;
@@ -46,6 +48,40 @@ class GroovesharkController extends AbstractController
        }
 
        return $response->createResponse();
+    }
+
+    /**
+     * @Route("/markStreamKeyOver30Sec/{streamKey}/{serverId}",name="_grooveshark_markStreamKeyOver30Sec",options={"expose"=true})
+     */
+    public function markStreamKeyOver30SecAction(Request $request, $streamKey,$serverId)
+    {
+
+        $gsApi = $this->get('grooveshark.api');
+        try{
+          $result= $gsApi->markStreamKeyOver30Secs($streamKey,$serverId);
+            $this->get('logger')->info($result);
+        }catch(\Excpetion $ex){
+            $this->get('logger')->info($ex);
+        }
+
+        return new Response();
+    }
+
+    /**
+     * @Route("/markSongComplete/{streamKey}/{serverId}/{songId}",name="_grooveshark_markSongComplete",options={"expose"=true})
+     */
+    public function markSongCompleteAction(Request $request, $streamKey,$serverId,$songId)
+    {
+
+        $gsApi = $this->get('grooveshark.api');
+        try{
+            $result= $gsApi->markSongComplete($songId,$streamKey,$serverId);
+            $this->get('logger')->info($result);
+        }catch(\Excpetion $ex){
+            $this->get('logger')->info($ex);
+        }
+
+        return new Response();
     }
 
     /**

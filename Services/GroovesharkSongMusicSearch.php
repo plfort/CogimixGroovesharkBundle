@@ -1,6 +1,8 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Services;
 
+use Cogipix\CogimixBundle\Model\SongResult;
+
 use Cogipix\CogimixBundle\Entity\TrackResult;
 
 
@@ -18,12 +20,13 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
         $return = array();
         foreach($results as $result){
 
-           $item = new TrackResult();
+           $item = new SongResult();
            $item->setEntryId($result['SongID']);
            $item->setArtist($result['ArtistName']);
            $item->setTitle($result['SongName']);
            $item->setThumbnails('http://images.gs-cdn.net/static/albums/70_'.$result['CoverArtFilename']);
            $item->setTag($this->getResultTag());
+           $item->setIcon($this->getDefaultIcon());
            $return[]=$item;
         }
 
@@ -53,6 +56,10 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 
     public function getResultTag(){
         return 'gs';
+    }
+
+    public function getDefaultIcon(){
+        return 'bundles/cogimixgrooveshark/images/gs-icon.png';
     }
 
 
