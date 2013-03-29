@@ -25,7 +25,7 @@
 			<service id="grooveshark.api" factory-method="getGroovesharkAPI"
 			factory-service="grooveshark.api_factory" class="%grooveshark.api.class%">			    
 			</service>
-           <service id="grooveshark_music.search_service" parent="abstract_music_seach" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkSongMusicSearch">
+           <service id="grooveshark_music.search_service" parent="abstract_music_search" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkSongMusicSearch">
                 <argument type="service" id="grooveshark.api"/>
                 <tag name="cogimix.plugin" />
            </service>
