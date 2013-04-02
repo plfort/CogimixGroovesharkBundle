@@ -1,11 +1,7 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Services;
 
-use Cogipix\CogimixBundle\Model\SongResult;
-
 use Cogipix\CogimixBundle\Entity\TrackResult;
-
-
 use Cogipix\CogimixBundle\Services\AbstractMusicSearch;
 
 class GroovesharkSongMusicSearch extends AbstractMusicSearch{
@@ -20,7 +16,7 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
         $return = array();
         foreach($results as $result){
 
-           $item = new SongResult();
+           $item = new TrackResult();
            $item->setEntryId($result['SongID']);
            $item->setArtist($result['ArtistName']);
            $item->setTitle($result['SongName']);

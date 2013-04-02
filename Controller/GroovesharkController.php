@@ -167,6 +167,7 @@ class GroovesharkController extends AbstractController
            $item->setEntryId($result['SongID']);
            $item->setArtist($result['ArtistName']);
            $item->setTitle($result['SongName']);
+           $item->setIcon('bundles/cogimixgrooveshark/images/gs-icon.png');
            $item->setThumbnails('http://images.gs-cdn.net/static/albums/70_'.$result['CoverArtFilename']);
            $return[]=$item;
         }

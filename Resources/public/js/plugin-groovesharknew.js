@@ -90,10 +90,12 @@ $(document).ready(function(){
 	});
 	
 	$("#playlist-container").on('click','.showPlaylistGroovesharkBtn',function(event){
-		
-		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':$(this).closest('.gs-playlist-item').data('id')}),function(response){
+		var playlistElement = $(this).closest('.gs-playlist-item');
+		var playlistName = $(this).html();
+		var playlistAlias = playlistElement.data('alias');
+		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':playlistElement.data('id')}),function(response){
 			if(response.success == true){
-				renderResult(response.data.tracks,{tpl:'trackGs'});
+				renderResult(response.data.tracks,{tpl:'trackGs',tabName:playlistName,alias:playlistAlias});
             	$("#wrap").animate({scrollTop:0});
 	
 			}else{
