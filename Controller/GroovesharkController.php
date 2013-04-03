@@ -1,18 +1,15 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Controller;
 
+use Cogipix\CogimixGroovesharkBundle\Entity\GroovesharkSession;
+
 use Symfony\Component\HttpFoundation\Response;
 
 use Cogipix\CogimixBundle\Entity\TrackResult;
 
-use Cogipix\CogimixBundle\Controller\AbstractController;
-
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Cogipix\CogimixGroovesharkBundle\Form\Grooveshark\LoginFormType;
-
-
-use Cogipix\CogimixGroovesharkBundle\lib\Grooveshark\gsUser;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -30,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * @author plfort - Cogipix
  *
  */
-class GroovesharkController extends AbstractController
+class GroovesharkController extends Controller
 {
     /**
      * @Route("/getsong/{songId}",name="_grooveshark_getsong",options={"expose"=true})
@@ -86,6 +83,32 @@ class GroovesharkController extends AbstractController
 
     /**
      *  @Secure(roles="ROLE_USER")
+     *  @Route("/logout",name="_grooveshark_logout",options={"expose"=true})
+     */
+    public function logoutAction(Request $request){
+        $response = new AjaxResult();
+        $gsApi = $this->get('grooveshark.api');
+        if($gsApi->logout()){
+            $em =  $this->getDoctrine()->getEntityManager();
+            $user = $this->getCurrentUser();
+            $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
+            $user->removeRole('ROLE_GROOVESHARK');
+            if($groovesharkSession){
+                $em->remove($groovesharkSession);
+                $response->setSuccess(true);
+                $response->addData('loginLink',$this->renderView('CogimixGroovesharkBundle:Login:loginLink.html.twig'));
+            }
+            $em->flush();
+            $this->get('security.context')->getToken()->setAuthenticated(false);
+        }else{
+            $this->get('logger')->info($gsApi::$lastError);
+        }
+
+        return $response->createResponse();
+    }
+
+    /**
+     *  @Secure(roles="ROLE_USER")
      *  @Route("/login",name="_grooveshark_login",options={"expose"=true})
      * @param unknown_type $username
      * @param unknown_type $password
@@ -102,22 +125,28 @@ class GroovesharkController extends AbstractController
             $form->bind($request);
             if($form->isValid()){
                 $data = $form->getData();
-            $gsApi = $this->get('grooveshark.api');
-            $gsUser = new gsUser();
-
-            $gsUser->setUsername($data['login']);
-            $gsUser->setTokenFromPassword($data['password']);
-                if($gsApi->authenticateUser($gsUser)!==false) {
+                $gsApi = $this->get('grooveshark.api');
+                if($gsApi->login($data['login'],md5($data['password']))!==false) {
+                    $em =  $this->getDoctrine()->getEntityManager();
                     $user = $this->getCurrentUser();
-                    $user->setGroovesharkSession($gsApi->getSession());
-                    $response->setSuccess(true);
+                   $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
+                   if($groovesharkSession === null){
+                       $groovesharkSession = new GroovesharkSession();
+                       $groovesharkSession->setUser($user);
+                   }
+
+                    $groovesharkSession->setSessionId($gsApi->getSession());
+                    $user->addRole('ROLE_GROOVESHARK');
+                    $this->getDoctrine()->getEntityManager()->persist($groovesharkSession);
                     $this->getDoctrine()->getEntityManager()->flush();
                     $playlists= $gsApi->getUserPlaylists();
-                    $response->addData('playlistsHtml', $this->renderView('CogimixGroovesharkBundle:Playlist:list.html.twig',array('list'=>$playlists)));
-
+                    $response->setSuccess(true);
+                    $this->get('security.context')->getToken()->setAuthenticated(false);
+                    $response->addData('playlistsHtml', $this->renderView('CogimixGroovesharkBundle:Playlist:list.html.twig',array('playlists'=>$playlists)));
+                    $response->addData('logoutLink',$this->renderView('CogimixGroovesharkBundle:Login:logoutLink.html.twig'));
                     return $response->createResponse();
                 }else{
-                    $this->get('logger')->debug($gsApi::$lastError);
+                    $this->get('logger')->info($gsApi::$lastError);
                     $response->setSuccess(false);
                     $response->addData('htmlForm', $this->renderView('CogimixGroovesharkBundle:Login:loginForm.html.twig',array('form'=>$form->createView(),'error'=>"Invalid login or password")));
                     return $response->createResponse();
@@ -130,6 +159,7 @@ class GroovesharkController extends AbstractController
 
     }
     /**
+     *  @Secure(roles="ROLE_GROOVESHARK")
      *  @Route("/playlist",name="_grooveshark_playlist")
      *  @Template("CogimixGroovesharkBundle:Playlist:list.html.twig")
      */
@@ -154,6 +184,7 @@ class GroovesharkController extends AbstractController
     }
 
     /**
+     *  @Secure(roles="ROLE_GROOVESHARK")
      *  @Route("/playlist/{id}",name="_grooveshark_playlist_songs",options={"expose"=true})
      */
     public function getPlaylistSongsAction($id){
@@ -175,5 +206,12 @@ class GroovesharkController extends AbstractController
         $ajaxResponse->addData('tracks', $return);
         return $ajaxResponse->createResponse();
 
+    }
+
+    private function getCurrentUser() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        if ($user instanceof \FOS\UserBundle\Model\UserInterface)
+            return $user;
+        return null;
     }
 }

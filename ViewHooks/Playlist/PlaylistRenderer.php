@@ -1,8 +1,8 @@
 <?php
-namespace Cogipix\CogimixGroovesharkBundle\Services;
+namespace Cogipix\CogimixGroovesharkBundle\ViewHooks\Playlist;
 
 
-use Cogipix\CogimixBundle\Services\PlaylistRendererInterface;
+use Cogipix\CogimixBundle\ViewHooks\Playlist\PlaylistRendererInterface;
 
 class PlaylistRenderer implements PlaylistRendererInterface{
 

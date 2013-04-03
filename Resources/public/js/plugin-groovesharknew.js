@@ -118,8 +118,8 @@ $(document).ready(function(){
 		},'json');
 		return false;
 	});
-	 $("#loginGroovesharkBtn").click(function(event){
-    	 $.get(Routing.generate('_grooveshark_login'),
+	$("#grooveshark-menu").on('click','#loginGroovesharkBtn',function(event){
+	 	 $.get(Routing.generate('_grooveshark_login'),
             	 function(response){
     		    if(response.success==true){
     		    	 $("#loginGroovesharkModal > .modal-body").html(response.data.htmlForm);
@@ -127,7 +127,21 @@ $(document).ready(function(){
         		    }
         	 },'json');
     	    return false;
-	 });
+		
+	});
+	
+	$("#grooveshark-menu").on('click','#logoutGroovesharkBtn',function(event){
+		var currentItem = $(this);
+	 	 $.get(Routing.generate('_grooveshark_logout'),
+           	 function(response){
+   		    if(response.success==true){
+   		    	currentItem.replaceWith(response.data.loginLink);
+   		        $("#gs-playlist-list").empty();
+       		    }
+       	 },'json');
+   	    return false;
+		
+	});
 
 	 $("#loginGroovesharkModal").on('submit','form',function(event){
 		var postData = $(this).serialize();
@@ -136,9 +150,10 @@ $(document).ready(function(){
         		 function(response){
 			    if(response.success==true){
 			    	 $("#loginGroovesharkModal").modal('toggle');
-			    	 $("#loginGroovesharkBtn").after(response.data.playlistsHtml);
+			    	 $("#gs-playlist-list").empty();
+			    	 $("#gs-playlist-list").html(response.data.playlistsHtml);
 			    	 $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
-			    	 $("#loginGroovesharkBtn").remove();
+			    	 $("#loginGroovesharkBtn").replaceWith(response.data.logoutLink);
     			}else{
     				 $("#loginGroovesharkModal > .modal-body").html(response.data.htmlForm);
         		}

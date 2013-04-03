@@ -16,11 +16,17 @@
 		   </service>
 		   
 		   
-		   <service id="grooveshark_music.playlist_renderer" class="Cogipix\CogimixGroovesharkBundle\Services\PlaylistRenderer">
+		   <service id="grooveshark_music.playlist_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Playlist\PlaylistRenderer">
                 <argument type="service" id="grooveshark.api"/>
                 <tag name="cogimix.playlist_renderer"/>
            </service>
            
+		   <service id="grooveshark_music.menu_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu\MenuRenderer">
+                <tag name="cogimix.menu_renderer"/>
+           </service>
+           <service id="grooveshark_music.modal_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal\ModalRenderer">
+                <tag name="cogimix.modal_renderer"/>
+           </service>
 		   
 			<service id="grooveshark.api" factory-method="getGroovesharkAPI"
 			factory-service="grooveshark.api_factory" class="%grooveshark.api.class%">			    
@@ -29,6 +35,11 @@
                 <argument type="service" id="grooveshark.api"/>
                 <tag name="cogimix.plugin" />
            </service>
+           
+       <service id="cogimix.grooveshark.event_listener.authenticate" class="Cogipix\CogimixGroovesharkBundle\EventListener\AuthenticationListener">
+           <argument type="service" id="doctrine.orm.entity_manager" />
+		<tag name="kernel.event_subscriber" />
+	  </service>
     
 		</services>
 </container>
