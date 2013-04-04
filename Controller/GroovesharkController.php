@@ -5,7 +5,7 @@ use Cogipix\CogimixGroovesharkBundle\Entity\GroovesharkSession;
 
 use Symfony\Component\HttpFoundation\Response;
 
-use Cogipix\CogimixBundle\Entity\TrackResult;
+use Cogipix\CogimixCommonBundle\Entity\TrackResult;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -13,7 +13,7 @@ use Cogipix\CogimixGroovesharkBundle\Form\Grooveshark\LoginFormType;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 
-use Cogipix\CogimixBundle\Utils\AjaxResult;
+use Cogipix\CogimixCommonBundle\Utils\AjaxResult;
 
 use Symfony\Component\HttpFoundation\Request;
 

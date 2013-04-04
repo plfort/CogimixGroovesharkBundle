@@ -1,6 +1,6 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Entity;
-use Cogipix\CogimixBundle\Entity\User;
+use Cogipix\CogimixCommonBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
@@ -19,7 +19,7 @@ class GroovesharkSession
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Cogipix\CogimixBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="Cogipix\CogimixCommonBundle\Entity\User")
      * @var User $user
      */
 

@@ -1,8 +1,12 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal;
 
-use Cogipix\CogimixBundle\ViewHooks\Modal\ModalItemInterface;
-
+use Cogipix\CogimixCommonBundle\ViewHooks\Modal\ModalItemInterface;
+/**
+ *
+ * @author plfort - Cogipix
+ *
+ */
 class ModalRenderer implements ModalItemInterface
 {
 

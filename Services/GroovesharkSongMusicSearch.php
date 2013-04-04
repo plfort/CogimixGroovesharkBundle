@@ -1,8 +1,8 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Services;
 
-use Cogipix\CogimixBundle\Entity\TrackResult;
-use Cogipix\CogimixBundle\Services\AbstractMusicSearch;
+use Cogipix\CogimixCommonBundle\Entity\TrackResult;
+use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
 
 class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 

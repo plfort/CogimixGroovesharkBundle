@@ -22,6 +22,8 @@ class CogimixGroovesharkExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('grooveshark.api.key', $config['api']['key']);
+        $container->setParameter('grooveshark.api.secret', $config['api']['secret']);
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
     }

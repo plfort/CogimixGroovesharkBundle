@@ -1,10 +1,12 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu;
+use Cogipix\CogimixCommonBundle\ViewHooks\Menu\MenuItemInterface;
 
-
-use Cogipix\CogimixBundle\ViewHooks\Menu\MenuItemInterface;
-
-
+/**
+ *
+ * @author plfort - Cogipix
+ *
+ */
 class MenuRenderer implements MenuItemInterface{
 
     public function getMenuItemTemplate()
