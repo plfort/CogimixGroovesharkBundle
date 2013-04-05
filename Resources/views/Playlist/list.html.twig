@@ -1,4 +1,6 @@
-<ul id="gs-playlist-list">
+<ul id="gs-playlist-container">
+<li><img class="playlist-icon" src="{{ asset('bundles/cogimix/images/services-icons/gs-icon.png') }}"/><a data-toggle="collapse"  href="#gs-playlist-list">Grooveshark</a></li>
+<ul id="gs-playlist-list" class="collapse out">
 {% if playlists is not empty %}
     {% for item in playlists %}
         {% include 'CogimixGroovesharkBundle:Playlist:item.html.twig' %}
@@ -6,4 +8,5 @@
 {% else %}
 <li>No Grooveshark playlist</li>
 {% endif %}
+</ul>
 </ul>

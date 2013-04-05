@@ -22,7 +22,7 @@ this.play = function(item) {
 	  			self.currentSoundObject.played30sec = false;
 	  			this.onPosition(30000, function(eventPosition) {
 	  				self.currentSoundObject.played30sec = true;
-	  		      console.log('Grooveshark mark30sec !');
+	  		      loggerGrooveshark.debug('Grooveshark mark30sec !');
 	  		    $.get(Routing.generate('_grooveshark_markStreamKeyOver30Sec',{streamKey:response.data.stream.StreamKey,serverId:response.data.stream.StreamServerID}),
 	  					  function(response){});
 	  			});
@@ -64,17 +64,17 @@ this.play = function(item) {
 
 };
 this.stop = function(){
-	console.log('call stop soundmanager');	
+	loggerGrooveshark.debug('call stop soundmanager');	
 	self.currentSoundObject.stop();	
 }
 
 this.pause = function(){
-	console.log('call pause soundmanager');
+	loggerGrooveshark.debug('call pause soundmanager');
 	self.currentSoundObject.pause();
 	
 }
 this.resume = function(){
-	console.log('call resume soundmanager');
+	loggerGrooveshark.debug('call resume soundmanager');
 	self.currentSoundObject.resume();
 }
 }
@@ -99,7 +99,7 @@ $(document).ready(function(){
             	$("#wrap").animate({scrollTop:0});
 	
 			}else{
-				console.log('Error with grooveshark');
+				loggerGrooveshark.debug('Error with grooveshark');
 			}
 		},'json');
 		return false;
@@ -113,7 +113,7 @@ $(document).ready(function(){
 				musicPlayer.addSongs(response.data.tracks);
                 musicPlayer.play();
 			}else{
-				console.log('Error with grooveshark');
+				loggerGrooveshark.debug('Error with grooveshark');
 			}
 		},'json');
 		return false;
@@ -136,7 +136,7 @@ $(document).ready(function(){
            	 function(response){
    		    if(response.success==true){
    		    	currentItem.replaceWith(response.data.loginLink);
-   		        $("#gs-playlist-list").empty();
+   		        $("#gs-playlist-container").empty();
        		    }
        	 },'json');
    	    return false;
@@ -150,8 +150,8 @@ $(document).ready(function(){
         		 function(response){
 			    if(response.success==true){
 			    	 $("#loginGroovesharkModal").modal('toggle');
-			    	 $("#gs-playlist-list").empty();
-			    	 $("#gs-playlist-list").html(response.data.playlistsHtml);
+			    	 $("#gs-playlist-container").empty();
+			    	 $("#gs-playlist-container").replaceWith(response.data.playlistsHtml);
 			    	 $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
 			    	 $("#loginGroovesharkBtn").replaceWith(response.data.logoutLink);
     			}else{
@@ -169,7 +169,7 @@ droppedHookArray['gs-playlist'] = function(droppedItem,callback){
 		var playlistId=droppedItem.data('id');
 		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':playlistId}),function(response){
             if(response.success==true){
-                console.log(response.data.tracks);
+                loggerGrooveshark.debug(response.data.tracks);
                 callback(response.data.tracks);
                 }
             },'json');

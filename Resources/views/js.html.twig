@@ -1,4 +1,9 @@
 {% javascripts
-        '@CogimixGroovesharkBundle/Resources/public/js/plugin-groovesharknew.js' filter="?yui_js"%}
+        '@CogimixGroovesharkBundle/Resources/public/js/plugin-groovesharknew.js'
+
+filter="?yui_js"%}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+<script>
+var loggerGrooveshark = JSLog.Register('CogimixGrooveshark');
+</script>
