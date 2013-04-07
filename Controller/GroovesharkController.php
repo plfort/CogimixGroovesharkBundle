@@ -126,7 +126,7 @@ class GroovesharkController extends Controller
             if($form->isValid()){
                 $data = $form->getData();
                 $gsApi = $this->get('grooveshark.api');
-                if($gsApi->login($data['login'],md5($data['password']))!==false) {
+                if($gsApi->login($data['login'],$data['password'])!==false) {
                     $em =  $this->getDoctrine()->getEntityManager();
                     $user = $this->getCurrentUser();
                    $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);

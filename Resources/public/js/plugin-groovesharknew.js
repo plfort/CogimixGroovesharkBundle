@@ -73,6 +73,7 @@ this.pause = function(){
 	self.currentSoundObject.pause();
 	
 }
+
 this.resume = function(){
 	loggerGrooveshark.debug('call resume soundmanager');
 	self.currentSoundObject.resume();
@@ -144,7 +145,13 @@ $(document).ready(function(){
 	});
 
 	 $("#loginGroovesharkModal").on('submit','form',function(event){
-		var postData = $(this).serialize();
+		var postData = $(this).serializeArray();
+		console.log(postData);
+		$.each(postData,function(key,input){
+			if(input.name =='cogimix_grooveshark_login[password]'){
+				input.value=hex_md5(input.value);
+			}
+		});
 		 $.post(Routing.generate('_grooveshark_login'),
 				 postData,
         		 function(response){

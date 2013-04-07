@@ -1,7 +1,17 @@
 {% if error is defined %}
 <div class="alert alert-error">{{ error }}</div>
 {% endif %}
+<p>You password is hashed before submitting the form.</p>
+<p>Your login and password are not stored in database.</p>
 <form action="{{ path('_grooveshark_login')  }}" action="POST">
-  {{ form_row(form) }}
+<div class="row">
+<div class="span4">
+  {{ form_row(form.login) }}
+</div>
+<div class="span4">
+  {{ form_row(form.password) }}
+</div>
+</div>
+{{ form_rest(form) }}
   <input type="submit" class="btn"  value="Login" />
 </form>
