@@ -24,11 +24,18 @@
 		   <service id="grooveshark_music.menu_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu\MenuRenderer">
                 <tag name="cogimix.menu_renderer"/>
            </service>
+           <service id="grooveshark_music.widget_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget\WidgetRenderer">
+                <tag name="cogimix.widget_renderer"/>
+           </service>
+		   
            <service id="grooveshark_music.modal_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal\ModalRenderer">
                 <tag name="cogimix.modal_renderer"/>
            </service>
            <service id="grooveshark_music.jsimport_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Javascript\JavascriptImportRenderer">
                 <tag name="cogimix.jsimport_renderer"/>
+           </service>
+           <service id="grooveshark_music.result_builder" class="Cogipix\CogimixGroovesharkBundle\Services\ResultBuilder">
+               
            </service>
 		   
 			<service id="grooveshark.api" factory-method="getGroovesharkAPI"
@@ -36,6 +43,7 @@
 			</service>
            <service id="grooveshark_music.search_service" parent="abstract_music_search" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkSongMusicSearch">
                 <argument type="service" id="grooveshark.api"/>
+                <argument type="service" id="grooveshark_music.result_builder"/>
                 <tag name="cogimix.plugin" />
            </service>
            

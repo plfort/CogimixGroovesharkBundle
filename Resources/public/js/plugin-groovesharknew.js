@@ -4,7 +4,7 @@ this.interval;
 this.musicPlayer = musicPlayer;
 this.currentState = null;
 this.soundmanagerPlayer = soundManager;
-
+this.widgetElement =$("#groovesharkWidgetContainer");
 this.currentSoundObject=null;
 var self = this;
 self.musicPlayer.cursor.progressbar();

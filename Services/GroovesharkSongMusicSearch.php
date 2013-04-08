@@ -7,26 +7,15 @@ use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
 class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 
     private $gsSearch;
+    private $resultBuilder;
 
-    public function __construct($gsApi){
+    public function __construct($gsApi,$resultBuilder){
         $this->gsSearch=new \gsSearch($gsApi);
+        $this->resultBuilder=$resultBuilder;
     }
 
     protected function parseResponse($results){
-        $return = array();
-        foreach($results as $result){
-
-           $item = new TrackResult();
-           $item->setEntryId($result['SongID']);
-           $item->setArtist($result['ArtistName']);
-           $item->setTitle($result['SongName']);
-           $item->setThumbnails('http://images.gs-cdn.net/static/albums/70_'.$result['CoverArtFilename']);
-           $item->setTag($this->getResultTag());
-           $item->setIcon($this->getDefaultIcon());
-           $return[]=$item;
-        }
-
-        return $return;
+        return $this->resultBuilder->createArrayFromGroovesharkTracks($results);
     }
 
     protected function buildQuery(){

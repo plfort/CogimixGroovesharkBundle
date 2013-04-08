@@ -40,8 +40,9 @@ class GroovesharkController extends Controller
        $result= $gsApi->getStreamKeyStreamServer($songId);
        $response->setSuccess(true);
        $response->addData('stream', $result);
-       }catch(\Excpetion $ex){
+       }catch(\Exception $ex){
            $response->setSuccess(false);
+           $this->get('logger')->error($ex->getMessage());
        }
 
        return $response->createResponse();
@@ -57,8 +58,8 @@ class GroovesharkController extends Controller
         try{
           $result= $gsApi->markStreamKeyOver30Secs($streamKey,$serverId);
             $this->get('logger')->info($result);
-        }catch(\Excpetion $ex){
-            $this->get('logger')->info($ex);
+        }catch(\Exception $ex){
+            $this->get('logger')->error($ex);
         }
 
         return new Response();
@@ -74,8 +75,8 @@ class GroovesharkController extends Controller
         try{
             $result= $gsApi->markSongComplete($songId,$streamKey,$serverId);
             $this->get('logger')->info($result);
-        }catch(\Excpetion $ex){
-            $this->get('logger')->info($ex);
+        }catch(\Exception $ex){
+            $this->get('logger')->error($ex);
         }
 
         return new Response();
@@ -90,7 +91,7 @@ class GroovesharkController extends Controller
         $gsApi = $this->get('grooveshark.api');
         if($gsApi->logout()){
             $em =  $this->getDoctrine()->getEntityManager();
-            $user = $this->getCurrentUser();
+            $user = $this->getUser();
             $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
             $user->removeRole('ROLE_GROOVESHARK');
             if($groovesharkSession){
@@ -128,7 +129,7 @@ class GroovesharkController extends Controller
                 $gsApi = $this->get('grooveshark.api');
                 if($gsApi->login($data['login'],$data['password'])!==false) {
                     $em =  $this->getDoctrine()->getEntityManager();
-                    $user = $this->getCurrentUser();
+                    $user = $this->getUser();
                    $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
                    if($groovesharkSession === null){
                        $groovesharkSession = new GroovesharkSession();
@@ -190,28 +191,24 @@ class GroovesharkController extends Controller
     public function getPlaylistSongsAction($id){
         $ajaxResponse= new AjaxResult();
         $gsApi = $this->get('grooveshark.api');
-        $songs= $gsApi->getPlaylistSongs($id);
-        $return = array();
-        foreach($songs as $result){
-           $item = new TrackResult();
-           $item->setTag('gs');
-           $item->setEntryId($result['SongID']);
-           $item->setArtist($result['ArtistName']);
-           $item->setTitle($result['SongName']);
-           $item->setIcon('bundles/cogimixgrooveshark/images/gs-icon.png');
-           $item->setThumbnails('http://images.gs-cdn.net/static/albums/70_'.$result['CoverArtFilename']);
-           $return[]=$item;
-        }
+        $songs=  $gsApi->getPlaylistSongs($id);
+
+        $return=$this->get('grooveshark_music.result_builder')->createArrayFromGroovesharkTracks($songs);
+//             foreach($songs as $result){
+//                $item = new TrackResult();
+//                $item->setTag('gs');
+//                $item->setEntryId($result['SongID']);
+//                $item->setArtist($result['ArtistName']);
+//                $item->setTitle($result['SongName']);
+//                $item->setIcon('bundles/cogimixgrooveshark/images/gs-icon.png');
+//                $item->setThumbnails('http://images.gs-cdn.net/static/albums/70_'.$result['CoverArtFilename']);
+//                $return[]=$item;
+//             }
+
         $ajaxResponse->setSuccess(true);
         $ajaxResponse->addData('tracks', $return);
         return $ajaxResponse->createResponse();
 
     }
 
-    private function getCurrentUser() {
-        $user = $this->get('security.context')->getToken()->getUser();
-        if ($user instanceof \FOS\UserBundle\Model\UserInterface)
-            return $user;
-        return null;
-    }
 }
