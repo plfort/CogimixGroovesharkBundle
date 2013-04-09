@@ -42,7 +42,7 @@ class GroovesharkController extends Controller
        $response->addData('stream', $result);
        }catch(\Exception $ex){
            $response->setSuccess(false);
-           $this->get('logger')->error($ex->getMessage());
+           $this->get('logger')->err($ex->getMessage());
        }
 
        return $response->createResponse();
@@ -59,7 +59,7 @@ class GroovesharkController extends Controller
           $result= $gsApi->markStreamKeyOver30Secs($streamKey,$serverId);
             $this->get('logger')->info($result);
         }catch(\Exception $ex){
-            $this->get('logger')->error($ex);
+            $this->get('logger')->err($ex);
         }
 
         return new Response();
@@ -76,7 +76,7 @@ class GroovesharkController extends Controller
             $result= $gsApi->markSongComplete($songId,$streamKey,$serverId);
             $this->get('logger')->info($result);
         }catch(\Exception $ex){
-            $this->get('logger')->error($ex);
+            $this->get('logger')->err($ex);
         }
 
         return new Response();

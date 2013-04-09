@@ -12,6 +12,7 @@ this.play = function(item) {
 	var songId = item.entryId;
 	$.get( Routing.generate('_grooveshark_getsong',{'songId':songId}),function(response) {
 	    if(response.success==true){
+	    	var uSecs= response.data.stream.uSecs;
 	    	self.currentSoundObject=self.soundmanagerPlayer.createSound({
 	  		  id: songId.toString(),
 	  		  url: response.data.stream.url,
@@ -20,15 +21,25 @@ this.play = function(item) {
 	  		  volume: 50,
 	  		  onload: function() {
 	  			self.currentSoundObject.played30sec = false;
+	  			
+	  			  self.musicPlayer.enableControls();
+	  			  self.musicPlayer.cursor.slider("option", "max", Math.round(uSecs/1000)).progressbar();			  
+	  			  self.musicPlayer.bindCursorStop(function(value) {
+	  				  
+	  				  self.currentSoundObject.setPosition(value);
+	  				});
+	  		  },
+	  		  onplay:function(){
+	  			  
 	  			this.onPosition(30000, function(eventPosition) {
 	  				self.currentSoundObject.played30sec = true;
-	  		      loggerGrooveshark.debug('Grooveshark mark30sec !');
+	  		     loggerGrooveshark.debug('Grooveshark mark30sec !');
 	  		    $.get(Routing.generate('_grooveshark_markStreamKeyOver30Sec',{streamKey:response.data.stream.StreamKey,serverId:response.data.stream.StreamServerID}),
 	  					  function(response){});
 	  			});
-	  			  self.musicPlayer.enableControls();
-	  			  self.musicPlayer.cursor.slider("option", "max", response.data.stream.uSecs/1000).progressbar();			  
-	  			  self.musicPlayer.bindCursorStop(function(value) {
+	  			self.musicPlayer.enableControls();
+	  			  self.musicPlayer.cursor.slider("option", "max", Math.round(uSecs/1000)).progressbar();
+	  			self.musicPlayer.bindCursorStop(function(value) {
 	  				  
 	  				  self.currentSoundObject.setPosition(value);
 	  				});
@@ -51,6 +62,7 @@ this.play = function(item) {
 	  		  },
 	  		  whileplaying: function(){
 	  			if(self.musicPlayer.cursor.data('isdragging')==false){
+	  				
 	  			  self.musicPlayer.cursor.slider("value", this.position);
 	  			}
 	  		  },
@@ -65,18 +77,24 @@ this.play = function(item) {
 };
 this.stop = function(){
 	loggerGrooveshark.debug('call stop soundmanager');	
-	self.currentSoundObject.stop();	
+	if(self.currentSoundObject!=null){
+		self.currentSoundObject.stop();	
+	}
 }
 
 this.pause = function(){
 	loggerGrooveshark.debug('call pause soundmanager');
-	self.currentSoundObject.pause();
+	if(self.currentSoundObject!=null){
+		self.currentSoundObject.pause();
+	}
 	
 }
 
 this.resume = function(){
 	loggerGrooveshark.debug('call resume soundmanager');
-	self.currentSoundObject.resume();
+	if(self.currentSoundObject!=null){
+		self.currentSoundObject.resume();
+	}
 }
 }
 
@@ -146,7 +164,7 @@ $(document).ready(function(){
 
 	 $("#loginGroovesharkModal").on('submit','form',function(event){
 		var postData = $(this).serializeArray();
-		console.log(postData);
+		
 		$.each(postData,function(key,input){
 			if(input.name =='cogimix_grooveshark_login[password]'){
 				input.value=hex_md5(input.value);
