@@ -18,7 +18,7 @@ this.play = function(item) {
 	  		  url: response.data.stream.url,
 	  		  autoLoad: true,
 	  		  autoPlay: true,
-	  		  volume: 50,
+	  		  volume: self.musicPlayer.volume,
 	  		  onload: function() {
 	  			self.currentSoundObject.played30sec = false;
 	  			
@@ -94,6 +94,12 @@ this.resume = function(){
 	loggerGrooveshark.debug('call resume soundmanager');
 	if(self.currentSoundObject!=null){
 		self.currentSoundObject.resume();
+	}
+}
+this.setVolume = function(value){
+	loggerGrooveshark.debug('call setvolume soundmanager');
+	if(self.currentSoundObject!=null){
+		self.currentSoundObject.setVolume(value);
 	}
 }
 }
