@@ -34,9 +34,7 @@
            <service id="grooveshark_music.jsimport_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Javascript\JavascriptImportRenderer">
                 <tag name="cogimix.jsimport_renderer"/>
            </service>
-           <service id="grooveshark_music.result_builder" class="Cogipix\CogimixGroovesharkBundle\Services\ResultBuilder">
-               
-           </service>
+           <service id="grooveshark_music.result_builder" class="Cogipix\CogimixGroovesharkBundle\Services\ResultBuilder"></service>
 		   
 			<service id="grooveshark.api" factory-method="getGroovesharkAPI"
 			factory-service="grooveshark.api_factory" class="%grooveshark.api.class%">			    

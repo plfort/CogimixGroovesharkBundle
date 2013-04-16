@@ -166,10 +166,6 @@ $("body").on('musicplayerReady',function(event){
 });
 
 $(document).ready(function(){
-
-	$.get('bundles/cogimixgrooveshark/js/template/track.html',function(html){
-		tplFiles['trackGs']=html;
-	},'text');
 	
 	$(document).on('click','#loginGroovesharkBtn',function(event){
 		$("#modalLoginGroovehsark").modal("toggle");
@@ -181,7 +177,7 @@ $(document).ready(function(){
 		var playlistAlias = playlistElement.data('alias');
 		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':playlistElement.data('id')}),function(response){
 			if(response.success == true){
-				renderResult(response.data.tracks,{tpl:'trackGs',tabName:playlistName,alias:playlistAlias});
+				renderResult(response.data.tracks,{tpl:'trackNoSortTpl',tabName:playlistName,alias:playlistAlias});
             	$("#wrap").animate({scrollTop:0});
 	
 			}else{
