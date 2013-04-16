@@ -1,29 +1,3 @@
-function Timer(callback, delay) {
-
-    var timerId, start, remaining = delay;
-
-    this.pause = function() {
-
-        clearTimeout(timerId);
-        remaining -= new Date() - start;
-      
-    };
-
-    this.resume = function() {
-        if(remaining>0){
-        	start = new Date();
-        	timerId = setTimeout(callback, remaining);
-        }
-    };
-    
-    this.clear = function() {
-    	
-    	 clearTimeout(timerId);
-    };
-
-    this.resume();
-}
-
 function groovesharkPlayer(musicPlayer){
 this.name = "Grooveshark";
 this.cancelRequested = false;
@@ -186,6 +160,10 @@ this.setVolume = function(value){
 	}
 }
 }
+
+$("body").on('musicplayerReady',function(event){
+	event.musicPlayer.addPlugin('gs',new groovesharkPlayer(event.musicPlayer));
+});
 
 $(document).ready(function(){
 
