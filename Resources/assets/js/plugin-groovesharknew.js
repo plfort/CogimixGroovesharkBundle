@@ -53,7 +53,7 @@ this.play = function(item) {
 	  		  },
 	  		  onplay:function(){
 	  			  self.musicPlayer.enableControls();
-	  			  if(songId == self.currentSongId){
+	  			  if(songId == self.currentSongId && self.musicPlayer.currentPlugin.name == self.name){
 		  			  if(self.timeout30sec == null){
 		  				 loggerGrooveshark.debug("create timer");
 			  			  self.timeout30Sec=new Timer(function() {
@@ -88,8 +88,10 @@ this.play = function(item) {
 	  			 if(self.timeout30Sec !== null){
 	  				 self.timeout30Sec.clear();
 	  			 }
+	  			
 	  			 self.timeout30Sec = null;
-	  			 self.musicPlayer.cursor.slider("option", "max", 0).progressbar('value',0);
+ 				 self.musicPlayer.cursor.slider('value', 0).progressbar('value',0);
+	  			 
 	  		  },
 	  		  onfinish: function(){
 	  			loggerGrooveshark.debug("ONFINISH");
@@ -128,8 +130,10 @@ this.play = function(item) {
 };
 this.stop = function(){
 	loggerGrooveshark.debug('call stop soundmanager');	
+	 self.currentSongId=null;
 	if(self.currentSoundObject!=null){
-		loggerGrooveshark.debug('-- currentSoundObject !== null');	
+		loggerGrooveshark.debug('-- currentSoundObject !== null');
+		
 		self.currentSoundObject.stop();	
 		if(self.timeout30Sec !== null){
 				 self.timeout30Sec.clear();

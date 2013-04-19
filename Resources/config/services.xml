@@ -25,6 +25,7 @@
                 <tag name="cogimix.menu_renderer"/>
            </service>
            <service id="grooveshark_music.widget_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget\WidgetRenderer">
+               <argument type="service" id="grooveshark.api" />
                 <tag name="cogimix.widget_renderer"/>
            </service>
 		   

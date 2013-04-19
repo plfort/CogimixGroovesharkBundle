@@ -1,5 +1,7 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget;
+use Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPI;
+
 use Cogipix\CogimixCommonBundle\ViewHooks\Widget\WidgetRendererInterface;
 
 /**
@@ -10,6 +12,10 @@ use Cogipix\CogimixCommonBundle\ViewHooks\Widget\WidgetRendererInterface;
 class WidgetRenderer implements WidgetRendererInterface
 {
 
+    private $gsApi;
+    public function __construct(GroovesharkAPI $gsAPi){
+        $this->gsApi = $gsAPi;
+    }
 
     public function getWidgetTemplate()
     {
@@ -17,7 +23,12 @@ class WidgetRenderer implements WidgetRendererInterface
     }
 
     public function getParameters(){
-        return array();
+        $userInfo = $this->gsApi->getUserInfo();
+        $isAnywhere = false;
+        if(isset($userInfo['IsAnywhere']) && $userInfo['IsAnywhere']==true){
+            $isAnywhere = true;
+        }
+        return array('isAnywhere'=>$isAnywhere);
     }
 
 }

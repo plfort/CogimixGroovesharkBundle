@@ -167,6 +167,7 @@ class GroovesharkController extends Controller
     public function getPlaylistAction(){
        $gsApi = $this->get('grooveshark.api');
        $userInfo=$gsApi->getUserInfo();
+
        $playlists=array();
        if(!empty($userInfo)){
            $playlists= $gsApi->getUserPlaylists();

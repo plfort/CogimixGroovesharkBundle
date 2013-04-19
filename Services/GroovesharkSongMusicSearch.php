@@ -28,6 +28,8 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
         $results= $this->gsSearch->songSearchResults();
         if($results){
             return $this->parseResponse($results);
+        }else{
+            $this->logger->err(\gsSearch::$lastError);
         }
     }
 
