@@ -64,9 +64,10 @@ this.play = function(item) {
 					  			},30000);
 		  			  }
 		  			
-		  			  self.musicPlayer.cursor.slider("option", "max", Math.round(uSecs/1000)).progressbar();
+		  			  self.musicPlayer.cursor.slider("option", "max", Math.round(uSecs/1000000)).progressbar();
 		  			  self.musicPlayer.bindCursorStop(function(value) {
-		  				  self.currentSoundObject.setPosition(value);
+		  				  
+		  				  self.currentSoundObject.setPosition(value*1000);
 		  				});
 	  			  }else{
 	  				  this.destruct();
@@ -113,8 +114,10 @@ this.play = function(item) {
 	  				this.destruct();
 	  				return;
 	  			}
+	  			
 			  	if(self.musicPlayer.cursor.data('isdragging')==false){
-			  		self.musicPlayer.cursor.slider("value", this.position);
+			  		
+			  		self.musicPlayer.cursor.slider("value", Math.round(this.position/1000));
 			  	}
 	  			
 	  		  },
