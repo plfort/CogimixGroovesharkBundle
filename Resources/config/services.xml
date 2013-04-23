@@ -29,6 +29,12 @@
                 <tag name="cogimix.widget_renderer"/>
            </service>
 		   
+           <service id="grooveshark_music.url_search" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkUrlSearch">
+               <argument type="service" id="grooveshark_music.result_builder"/>
+               <argument type="service" id="grooveshark.api" />
+                <tag name="cogimix.url_search" />
+           </service>
+           
            <service id="grooveshark_music.modal_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal\ModalRenderer">
                 <tag name="cogimix.modal_renderer"/>
            </service>
