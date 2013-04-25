@@ -36,7 +36,10 @@ class GroovesharkUrlSearch implements UrlSearcherInterface
                 if($url->fragment){
                     $fragment=strstr($url->fragment,'/');
                     $trimedFragment=trim($fragment, "/");
-                    $path = explode('/', $trimedFragment);
+                    $parsedFragment=parse_url($trimedFragment);
+                    if(isset($parsedFragment['path']) && !empty($parsedFragment['path'])){
+                        $path = explode('/',$parsedFragment['path']);
+                    }
                 }
             }
 
@@ -51,6 +54,10 @@ class GroovesharkUrlSearch implements UrlSearcherInterface
             if(in_array('album', $path)){
                 $result= $this->gsApi->getAlbumSongs(end($path));
             }
+            /*
+            if(in_array('s', $path)){
+               $result= $this->gsApi->getSongInfo(end($path));
+            }*/
 
 
             return  $this->resultBuilder->createArrayFromGroovesharkTracks($result);

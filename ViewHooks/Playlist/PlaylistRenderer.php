@@ -1,5 +1,7 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\ViewHooks\Playlist;
+use Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPI;
+
 use Cogipix\CogimixCommonBundle\ViewHooks\Playlist\PlaylistRendererInterface;
 /**
  *
