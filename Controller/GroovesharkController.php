@@ -35,16 +35,17 @@ class GroovesharkController extends Controller
     public function getSongAction(Request $request, $songId)
     {
        $response = new AjaxResult();
-       $gsApi = $this->get('grooveshark.api');
-       try{
-       $result= $gsApi->getStreamKeyStreamServer($songId);
-       $response->setSuccess(true);
-       $response->addData('stream', $result);
-       }catch(\Exception $ex){
-           $response->setSuccess(false);
-           $this->get('logger')->err($ex->getMessage());
+       if($request->isXmlHttpRequest()){
+           $gsApi = $this->get('grooveshark.api');
+           try{
+           $result= $gsApi->getStreamKeyStreamServer($songId);
+           $response->setSuccess(true);
+           $response->addData('stream', $result);
+           }catch(\Exception $ex){
+               $response->setSuccess(false);
+               $this->get('logger')->err($ex->getMessage());
+           }
        }
-
        return $response->createResponse();
     }
 
@@ -53,15 +54,15 @@ class GroovesharkController extends Controller
      */
     public function markStreamKeyOver30SecAction(Request $request, $streamKey,$serverId)
     {
-
-        $gsApi = $this->get('grooveshark.api');
-        try{
-          $result= $gsApi->markStreamKeyOver30Secs($streamKey,$serverId);
-            $this->get('logger')->info($result);
-        }catch(\Exception $ex){
-            $this->get('logger')->err($ex);
+        if($request->isXmlHttpRequest()){
+            $gsApi = $this->get('grooveshark.api');
+            try{
+               $result= $gsApi->markStreamKeyOver30Secs($streamKey,$serverId);
+                $this->get('logger')->info($result);
+            }catch(\Exception $ex){
+                $this->get('logger')->err($ex);
+            }
         }
-
         return new Response();
     }
 
@@ -70,13 +71,14 @@ class GroovesharkController extends Controller
      */
     public function markSongCompleteAction(Request $request, $streamKey,$serverId,$songId)
     {
-
-        $gsApi = $this->get('grooveshark.api');
-        try{
-            $result= $gsApi->markSongComplete($songId,$streamKey,$serverId);
-            $this->get('logger')->info($result);
-        }catch(\Exception $ex){
-            $this->get('logger')->err($ex);
+        if($request->isXmlHttpRequest()){
+            $gsApi = $this->get('grooveshark.api');
+            try{
+                $result= $gsApi->markSongComplete($songId,$streamKey,$serverId);
+                $this->get('logger')->info($result);
+            }catch(\Exception $ex){
+                $this->get('logger')->err($ex);
+            }
         }
 
         return new Response();
@@ -193,19 +195,7 @@ class GroovesharkController extends Controller
         $ajaxResponse= new AjaxResult();
         $gsApi = $this->get('grooveshark.api');
         $songs=  $gsApi->getPlaylistSongs($id);
-
         $return=$this->get('grooveshark_music.result_builder')->createArrayFromGroovesharkTracks($songs);
-//             foreach($songs as $result){
-//                $item = new TrackResult();
-//                $item->setTag('gs');
-//                $item->setEntryId($result['SongID']);
-//                $item->setArtist($result['ArtistName']);
-//                $item->setTitle($result['SongName']);
-//                $item->setIcon('bundles/cogimixgrooveshark/images/gs-icon.png');
-//                $item->setThumbnails('http://images.gs-cdn.net/static/albums/70_'.$result['CoverArtFilename']);
-//                $return[]=$item;
-//             }
-
         $ajaxResponse->setSuccess(true);
         $ajaxResponse->addData('tracks', $return);
         return $ajaxResponse->createResponse();
