@@ -28,4 +28,8 @@ class PlaylistRenderer implements PlaylistRendererInterface{
         }
         return $playlists;
     }
+
+    public function getTag(){
+        return 'grooveshark';
+    }
 }
