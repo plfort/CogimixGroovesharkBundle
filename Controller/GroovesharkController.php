@@ -54,16 +54,18 @@ class GroovesharkController extends Controller
      */
     public function markStreamKeyOver30SecAction(Request $request, $streamKey,$serverId)
     {
+        $response = new AjaxResult();
         if($request->isXmlHttpRequest()){
             $gsApi = $this->get('grooveshark.api');
             try{
                $result= $gsApi->markStreamKeyOver30Secs($streamKey,$serverId);
-                $this->get('logger')->info($result);
+               $response->setSuccess(true);
+                //$this->get('logger')->info($result);
             }catch(\Exception $ex){
                 $this->get('logger')->err($ex);
             }
         }
-        return new Response();
+        return $response->createResponse();
     }
 
     /**
@@ -71,17 +73,19 @@ class GroovesharkController extends Controller
      */
     public function markSongCompleteAction(Request $request, $streamKey,$serverId,$songId)
     {
+        $response = new AjaxResult();
         if($request->isXmlHttpRequest()){
             $gsApi = $this->get('grooveshark.api');
             try{
                 $result= $gsApi->markSongComplete($songId,$streamKey,$serverId);
-                $this->get('logger')->info($result);
+                $response->setSuccess(true);
+                //$this->get('logger')->info($result);
             }catch(\Exception $ex){
                 $this->get('logger')->err($ex);
             }
         }
 
-        return new Response();
+         return $response->createResponse();
     }
 
     /**
