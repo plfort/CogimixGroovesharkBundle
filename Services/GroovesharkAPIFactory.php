@@ -11,6 +11,8 @@ class GroovesharkAPIFactory{
     private $apiClass;
     private $container;
 
+    private $gsApi=null;
+
     public function __construct($key,$secret,$apiClass,ContainerInterface $container){
         $this->key = $key;
         $this->secret= $secret;
@@ -19,20 +21,21 @@ class GroovesharkAPIFactory{
     }
 
     public function getGroovesharkAPI(){
+        if($this->gsApi === null){
+            $this->gsApi= new $this->apiClass($this->key,$this->secret);
+            $session=$this->container->get('session');
+            if ($session->get('gsSession',false)) {
+                $this->gsApi->setSession($session->get('gsSession'));
+            } else {
+                $session->set('gsSession',$this->gsApi->startSession());
+            }
+            if ($session->get('gsCountry',false)) {
+                $this->gsApi->setCountry($session->get('gsCountry',false));
+            } else {
+                $session->set('gsCountry',$this->gsApi->getCountry());
 
-        $gsapi= new $this->apiClass($this->key,$this->secret);
-        $session=$this->container->get('session');
-        if ($session->get('gsSession',false)) {
-            $gsapi->setSession($session->get('gsSession'));
-        } else {
-            $session->set('gsSession',$gsapi->startSession());
+            }
         }
-        if ($session->get('gsCountry',false)) {
-            $gsapi->setCountry($session->get('gsCountry',false));
-        } else {
-            $session->set('gsCountry',$gsapi->getCountry());
-
-        }
-       return $gsapi;
+       return $this->gsApi;
     }
 }
