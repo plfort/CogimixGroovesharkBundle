@@ -6,11 +6,13 @@ use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
 
 class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 
-    private $gsSearch;
+
+    private $gsApi;
     private $resultBuilder;
+    private $query=null;
 
     public function __construct($gsApi,$resultBuilder){
-        $this->gsSearch=new \gsSearch($gsApi);
+        $this->gsApi=$gsApi;
         $this->resultBuilder=$resultBuilder;
     }
 
@@ -19,19 +21,28 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
     }
 
     protected function buildQuery(){
-        $this->gsSearch->setTitle($this->searchQuery->getSongQuery());
-        $this->gsSearch->setArtist($this->searchQuery->getArtistQuery());
+        $this->query = $this->searchQuery->getSongQuery();
     }
 
     protected function executeQuery(){
         $this->logger->info('Groovshark executeQuery');
-        $results= $this->gsSearch->songSearchResults();
+
+        $results= $this->gsApi->getSongSearchResults($this->query);
+
+
         if($results){
             return $this->parseResponse($results);
         }else{
-            $this->logger->err(\gsSearch::$lastError);
+           // $this->logger->err(\gsSearch::$lastError);
         }
     }
+
+    protected function executePopularQuery(){
+        $popularSongs= $this->gsApi->getPopularSongs();
+        //var_dump($popularSongs);die();
+        return $this->parseResponse($popularSongs);
+    }
+
 
     public function  getName(){
         return 'Grooveshark';

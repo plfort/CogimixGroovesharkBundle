@@ -23,10 +23,15 @@ class WidgetRenderer implements WidgetRendererInterface
     }
 
     public function getParameters(){
-        $userInfo = $this->gsApi->getUserInfo();
         $isAnywhere = false;
-        if(isset($userInfo['IsAnywhere']) && $userInfo['IsAnywhere']==true){
-            $isAnywhere = true;
+        try{
+            $userInfo = $this->gsApi->getUserInfo();
+
+            if(isset($userInfo['IsAnywhere']) && $userInfo['IsAnywhere']==true){
+                $isAnywhere = true;
+            }
+        }catch(\Exception $ex){
+
         }
         return array('isAnywhere'=>$isAnywhere);
     }

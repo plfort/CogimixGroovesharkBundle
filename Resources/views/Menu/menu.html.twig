@@ -1,7 +1,7 @@
 {% spaceless %}
-<li id="grooveshark-menu" class="dropdown-submenu">
+<li id="grooveshark-menu">
     <a href="#">Grooveshark</a>
-    <ul class="dropdown-menu">
+    <ul >
     {% if not is_granted('ROLE_GROOVESHARK') %}
     <li>{% include 'CogimixGroovesharkBundle:Login:loginLink.html.twig' %}</li>
     {% else %}

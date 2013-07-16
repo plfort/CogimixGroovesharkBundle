@@ -4,9 +4,22 @@ namespace Cogipix\CogimixGroovesharkBundle\Services;
 
 class GroovesharkAPI extends \gsAPI{
 
-    public function __construct($key,$secret){
 
-        parent::__construct($key,$secret);
+    /*
+     * Set the current session for use with methods
+    */
+    public function setSession($sessionID)
+    {
+        $this->sessionID = $sessionID;
     }
 
+    public function getPopularSongs(){
+       $return= $this->apiCall("getPopularSongsToday",array(),true);
+       if (isset($return['decoded']['result']['songs'])) {
+           return $return['decoded']['result']['songs'];
+       } else {
+           gsAPI::$lastError = $return['raw'];
+           return false;
+       }
+    }
 }

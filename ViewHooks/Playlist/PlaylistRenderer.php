@@ -21,10 +21,15 @@ class PlaylistRenderer implements PlaylistRendererInterface{
     }
 
     public function getPlaylists(){
-        $userInfo=$this->gsApi->getUserInfo();
         $playlists=array();
-        if(!empty($userInfo)){
-            $playlists= $this->gsApi->getUserPlaylists();
+        try{
+            $userInfo=$this->gsApi->getUserInfo();
+
+            if(!empty($userInfo)){
+                $playlists= $this->gsApi->getUserPlaylists();
+            }
+        }catch(\Exception $ex){
+
         }
         return $playlists;
     }

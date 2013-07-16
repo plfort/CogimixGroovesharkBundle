@@ -38,9 +38,9 @@ class GroovesharkController extends Controller
        if($request->isXmlHttpRequest()){
            $gsApi = $this->get('grooveshark.api');
            try{
-           $result= $gsApi->getStreamKeyStreamServer($songId);
-           $response->setSuccess(true);
-           $response->addData('stream', $result);
+               $result= $gsApi->getStreamKeyStreamServer($songId);
+               $response->setSuccess(true);
+               $response->addData('stream', $result);
            }catch(\Exception $ex){
                $response->setSuccess(false);
                $this->get('logger')->err($ex->getMessage());
@@ -172,14 +172,17 @@ class GroovesharkController extends Controller
      */
     public function getPlaylistAction(){
        $gsApi = $this->get('grooveshark.api');
-       $userInfo=$gsApi->getUserInfo();
-
        $playlists=array();
-       if(!empty($userInfo)){
-           $playlists= $gsApi->getUserPlaylists();
-       }else{
+       try{
+           $userInfo=$gsApi->getUserInfo();
+           if(!empty($userInfo)){
+               $playlists= $gsApi->getUserPlaylists();
+           }else{
 
-            return $this->render('CogimixGroovesharkBundle:Login:loginButton.html.twig');
+                return $this->render('CogimixGroovesharkBundle:Login:loginButton.html.twig');
+           }
+       }catch(\Exception $ex){
+
        }
        return array('list'=>$playlists);
     }
