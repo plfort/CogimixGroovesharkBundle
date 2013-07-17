@@ -14,12 +14,8 @@ class GroovesharkAPI extends \gsAPI{
     }
 
     public function getPopularSongs(){
-       $return= $this->apiCall("getPopularSongsToday",array(),true);
-       if (isset($return['decoded']['result']['songs'])) {
-           return $return['decoded']['result']['songs'];
-       } else {
-           gsAPI::$lastError = $return['raw'];
-           return false;
-       }
+
+        return $this->getPopularSongsToday();
     }
+
 }
