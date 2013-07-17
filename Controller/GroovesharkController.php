@@ -96,7 +96,7 @@ class GroovesharkController extends Controller
         $response = new AjaxResult();
         $gsApi = $this->get('grooveshark.api');
         if($gsApi->logout()){
-            $em =  $this->getDoctrine()->getEntityManager();
+            $em =  $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
             $user->removeRole('ROLE_GROOVESHARK');
@@ -134,7 +134,7 @@ class GroovesharkController extends Controller
                 $data = $form->getData();
                 $gsApi = $this->get('grooveshark.api');
                 if($gsApi->login($data['login'],$data['password'])!==false) {
-                    $em =  $this->getDoctrine()->getEntityManager();
+                    $em =  $this->getDoctrine()->getManager();
                     $user = $this->getUser();
                    $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
                    if($groovesharkSession === null){
@@ -144,8 +144,8 @@ class GroovesharkController extends Controller
 
                     $groovesharkSession->setSessionId($gsApi->getSession());
                     $user->addRole('ROLE_GROOVESHARK');
-                    $this->getDoctrine()->getEntityManager()->persist($groovesharkSession);
-                    $this->getDoctrine()->getEntityManager()->flush();
+                    $this->getDoctrine()->getManager()->persist($groovesharkSession);
+                    $this->getDoctrine()->getManager()->flush();
                     $playlists= $gsApi->getUserPlaylists();
                     $response->setSuccess(true);
                     $this->get('security.context')->getToken()->setAuthenticated(false);
