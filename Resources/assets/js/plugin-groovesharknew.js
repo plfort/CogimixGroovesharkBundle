@@ -259,7 +259,7 @@ $(document).ready(function(){
     $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
 });
 
-
+iconMap['gs'] = 'bundles/cogimixgrooveshark/images/gs-icon.png';
 droppedHookArray['gs-playlist'] = function(droppedItem,callback){
 		var playlistId=droppedItem.data('id');
 		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':playlistId}),function(response){
