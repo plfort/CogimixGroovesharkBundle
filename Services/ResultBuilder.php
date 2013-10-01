@@ -43,7 +43,7 @@ class ResultBuilder implements ResultBuilderInterface
     }
 
     public function getDefaultIcon(){
-        return 'bundles/cogimixgrooveshark/images/gs-icon.png';
+        return '/bundles/cogimixgrooveshark/images/gs-icon.png';
     }
 
 }

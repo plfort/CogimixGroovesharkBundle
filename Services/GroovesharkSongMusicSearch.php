@@ -57,7 +57,7 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
     }
 
     public function getDefaultIcon(){
-        return 'bundles/cogimixgrooveshark/images/gs-icon.png';
+        return '/bundles/cogimixgrooveshark/images/gs-icon.png';
     }
 
 
