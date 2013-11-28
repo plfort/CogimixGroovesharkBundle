@@ -26,8 +26,12 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 
     protected function executeQuery(){
         $this->logger->info('Groovshark executeQuery');
-
-        $results= $this->gsApi->getSongSearchResults($this->query);
+        $results = null;
+		try{
+        	$results= $this->gsApi->getSongSearchResults($this->query);
+		}catch(\Exception $ex){
+			$this->logger->err($ex);
+		}
 
 
         if($results){
