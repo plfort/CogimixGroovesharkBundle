@@ -38,6 +38,8 @@ class GroovesharkAPIFactory{
 
                 }
             }catch(\Exception $ex){
+				$session->remove('gsSession');
+				$session->remove('gsCountry');
                 $this->container->get('logger')->err($ex);
             }
         }

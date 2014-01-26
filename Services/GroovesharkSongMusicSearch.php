@@ -42,7 +42,7 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
     }
 
     protected function executePopularQuery(){
-        $popularSongs= $this->gsApi->getPopularSongs();
+        $popularSongs= $this->gsApi->getPopularSongsToday();
         //var_dump($popularSongs);die();
         return $this->parseResponse($popularSongs);
     }

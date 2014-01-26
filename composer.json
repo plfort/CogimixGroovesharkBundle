@@ -1,18 +1,19 @@
 {
-    "name": "cogipix/cogimixgroovehsark",
-    "type": "symfony-bundle",
-    "authors": [
-        {
-            "name": "Pierre-Louis FORT",
-            "email": "plfort@cogipix.com"
-        }
-    ],
-    "require": {
-       "php": ">=5.3.3",
-       "fastest963/grooveshark-api": "2.0.*"
-    },
-    "autoload": {
-        "psr-0": {"Cogipix\\CogimixGroovesharkBundle": ""}
-    },
-    "target-dir": "Cogipix/CogimixGroovesharkBundle"
+	"name" : "cogipix/cogimixgroovehsark",
+	"type" : "symfony-bundle",
+	"authors" : [{
+			"name" : "Pierre-Louis FORT",
+			"email" : "plfort@cogipix.com"
+		}
+	],
+	"require" : {
+		"php" : ">=5.3.3",
+		"plfort/groovesharkapi" : "*"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Cogipix\\CogimixGroovesharkBundle" : ""
+		}
+	},
+	"target-dir" : "Cogipix/CogimixGroovesharkBundle"
 }

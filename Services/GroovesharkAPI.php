@@ -2,7 +2,8 @@
 namespace Cogipix\CogimixGroovesharkBundle\Services;
 
 
-class GroovesharkAPI extends \gsAPI{
+
+class GroovesharkAPI extends plfort\GroovesharkAPI\GroovesharkAPI{
 
 
     /*

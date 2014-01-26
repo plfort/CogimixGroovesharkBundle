@@ -1,9 +1,8 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget;
-use Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPI;
 
 use Cogipix\CogimixCommonBundle\ViewHooks\Widget\WidgetRendererInterface;
-
+use plfort\GroovesharkAPI\GroovesharkException;
 /**
  *
  * @author plfort - Cogipix
@@ -13,7 +12,7 @@ class WidgetRenderer implements WidgetRendererInterface
 {
 
     private $gsApi;
-    public function __construct(GroovesharkAPI $gsAPi){
+    public function __construct($gsAPi){
         $this->gsApi = $gsAPi;
     }
 
@@ -30,7 +29,7 @@ class WidgetRenderer implements WidgetRendererInterface
             if(isset($userInfo['IsAnywhere']) && $userInfo['IsAnywhere']==true){
                 $isAnywhere = true;
             }
-        }catch(\Exception $ex){
+        }catch(GroovesharkException $ex){
 
         }
         return array('isAnywhere'=>$isAnywhere);
