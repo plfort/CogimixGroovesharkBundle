@@ -8,7 +8,7 @@
 	],
 	"require" : {
 		"php" : ">=5.3.3",
-		"plfort/groovesharkapi" : "dev-master"
+		"plfort/groovesharkapi" : "v1.*"
 	},
 	"autoload" : {
 		"psr-0" : {
