@@ -11,7 +11,7 @@ class GroovesharkUrlSearch implements UrlSearcherInterface
     private $resultBuilder;
     private $gsApi;
 
-    public function __construct(ResultBuilder $resultBuilder,GroovesharkAPI $gsApi){
+    public function __construct(ResultBuilder $resultBuilder,$gsApi){
         $this->resultBuilder = $resultBuilder;
         $this->gsApi = $gsApi;
     }
