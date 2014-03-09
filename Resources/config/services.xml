@@ -22,8 +22,8 @@
                 <tag name="logger_aware"/>
            </service>
            
-		   <service id="grooveshark_music.menu_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu\MenuRenderer">
-                <tag name="cogimix.menu_renderer"/>
+           <service id="grooveshark_music.menu_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu\MenuItem">
+                <tag name="cogimix.menu_item"/>
            </service>
            <service id="grooveshark_music.widget_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget\WidgetRenderer">
                <argument type="service" id="grooveshark.api" />
