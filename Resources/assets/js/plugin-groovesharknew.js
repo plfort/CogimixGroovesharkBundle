@@ -184,7 +184,8 @@ $(document).ready(function(){
 		var playlistAlias = playlistElement.data('alias');
 		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':playlistElement.data('id')}),function(response){
 			if(response.success == true){
-				renderResult(response.data.tracks,{tpl:'trackNoSortTpl',tabName:playlistName,alias:playlistAlias});
+				$pane.playlist.content.html(render('playlistExternalDetailSkeletonTpl',{'playlist':{name:playlistName},'user':currentUser}));
+				renderResult(response.data.tracks,{tpl:'trackNoSortTpl',tabName:playlistName,alias:'playlist-content'});
             	$("#wrap").animate({scrollTop:0});
 	
 			}else{
@@ -211,7 +212,7 @@ $(document).ready(function(){
 	 	 $.get(Routing.generate('_grooveshark_login'),
             	 function(response){
     		    if(response.success==true){
-    		    	 $("#loginGroovesharkModal > .modal-body").html(response.data.htmlForm);
+    		    	 $("#loginGroovesharkModal .modal-body").html(response.data.htmlForm);
     		    	 $("#loginGroovesharkModal").modal('toggle');
         		    }
         	 },'json');

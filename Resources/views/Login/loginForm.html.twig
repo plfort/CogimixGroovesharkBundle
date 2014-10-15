@@ -5,11 +5,11 @@
 <p>Your login and password are not stored in database.</p>
 <form action="{{ path('_grooveshark_login')  }}" action="POST">
 <div class="row">
-<div class="span4">
-  {{ form_row(form.login) }}
+<div class="col-md-12">
+  {{ form_row(form.login,{'attr':{'class':'form-control'}}) }}
 </div>
-<div class="span4">
-  {{ form_row(form.password) }}
+<div class="col-md-12">
+  {{ form_row(form.password,{'attr':{'class':'form-control'}}) }}
 </div>
 </div>
 {{ form_rest(form) }}

@@ -1,9 +1,9 @@
 <?php
 namespace Cogipix\CogimixGroovesharkBundle\Services;
 
+use plfort\GroovesharkAPI\GroovesharkAPI as BaseGroovesharkAPI;
 
-
-class GroovesharkAPI extends plfort\GroovesharkAPI\GroovesharkAPI{
+class GroovesharkAPI extends BaseGroovesharkAPI{
 
 
     /*
