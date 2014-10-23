@@ -1,0 +1,3 @@
+grooveshark_password_is_hashed: You password is hashed before submitting the form.
+grooveshark_password_not_stored: Your login and password are not stored in database.
+grooveshark_lobin_modal_title: Connect to Grooveshark

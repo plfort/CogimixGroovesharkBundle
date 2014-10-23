@@ -1,17 +1,28 @@
 {% if error is defined %}
 <div class="alert alert-error">{{ error }}</div>
 {% endif %}
-<p>You password is hashed before submitting the form.</p>
-<p>Your login and password are not stored in database.</p>
-<form action="{{ path('_grooveshark_login')  }}" action="POST">
+<p>{{ 'grooveshark_password_is_hashed'|trans }}</p>
+<p>{{ 'grooveshark_password_not_stored'|trans }}</p>
 <div class="row">
 <div class="col-md-12">
-  {{ form_row(form.login,{'attr':{'class':'form-control'}}) }}
+<form class="form-horizontal" action="{{ path('_grooveshark_login')  }}" action="POST">
+<div class="form-group">
+  {{ form_label(form.login,null,{'label_attr':{'class':'col-sm-3'}}) }}
+<div class="col-md-8">
+  {{ form_widget(form.login,{'attr':{'class':'form-control'}}) }}
 </div>
-<div class="col-md-12">
-  {{ form_row(form.password,{'attr':{'class':'form-control'}}) }}
+</div>
+<div class="form-group">
+{{  form_label(form.password,null,{'label_attr':{'class':'col-sm-3'}}) }}
+
+<div class="col-md-8">
+  {{ form_widget(form.password,{'attr':{'class':'form-control'}}) }}
 </div>
 </div>
 {{ form_rest(form) }}
-  <input type="submit" class="btn"  value="Login" />
+
+  <input type="submit" class="btn btn-success"  value="Login" />
+
 </form>
+</div>
+</div>
