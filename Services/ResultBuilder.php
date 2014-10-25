@@ -6,7 +6,7 @@ use Cogipix\CogimixCommonBundle\ResultBuilder\ResultBuilderInterface;
 class ResultBuilder implements ResultBuilderInterface
 {
 
-    private $basePathThumbnails = 'http://images.gs-cdn.net/static/albums/200_';
+    private $basePathThumbnails = 'http://images.gs-cdn.net/static/albums/200_album.png';
     public function createFromGroovesharkTrack($groovesharkTrack)
     {
         $item =null;
