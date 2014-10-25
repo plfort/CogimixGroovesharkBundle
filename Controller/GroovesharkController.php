@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use plfort\GroovesharkAPI\GroovesharkException;
 /**
  * @Route("/grooveshark")
  * @author plfort - Cogipix
@@ -95,23 +96,33 @@ class GroovesharkController extends Controller
     public function logoutAction(Request $request){
         $response = new AjaxResult();
         $gsApi = $this->get('grooveshark.api');
+        try{
         if($gsApi->logout()){
-            $em =  $this->getDoctrine()->getManager();
-            $user = $this->getUser();
-            $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
-            $user->removeRole('ROLE_GROOVESHARK');
-            if($groovesharkSession){
-                $em->remove($groovesharkSession);
-                $response->setSuccess(true);
-                $response->addData('loginLink',$this->renderView('CogimixGroovesharkBundle:Login:loginLink.html.twig'));
-            }
-            $em->flush();
-            $this->get('security.context')->getToken()->setAuthenticated(false);
+            $this->removeUserSession();
+            $response->setSuccess(true);
+            $response->addData('loginLink',$this->renderView('CogimixGroovesharkBundle:Login:loginLink.html.twig'));
         }else{
-            $this->get('logger')->info($gsApi::$lastError);
+            $this->get('logger')->err($gsApi::$lastError);
         }
-
+        }catch(GroovesharkException $ex){
+            $this->removeUserSession();
+            $response->setSuccess(true);
+            $response->addData('loginLink',$this->renderView('CogimixGroovesharkBundle:Login:loginLink.html.twig'));
+        }
         return $response->createResponse();
+    }
+    
+    private function removeUserSession(){
+        $em =  $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $groovesharkSession= $em->getRepository('CogimixGroovesharkBundle:GroovesharkSession')->findOneByUser($user);
+        $user->removeRole('ROLE_GROOVESHARK');
+        if($groovesharkSession){
+            $em->remove($groovesharkSession);
+        }
+        $em->flush();
+       
+        $this->get('security.context')->getToken()->setAuthenticated(false);
     }
 
     /**
