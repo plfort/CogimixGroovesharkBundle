@@ -3,6 +3,7 @@ namespace Cogipix\CogimixGroovesharkBundle\Services;
 
 use Cogipix\CogimixCommonBundle\Entity\TrackResult;
 use Cogipix\CogimixCommonBundle\MusicSearch\AbstractMusicSearch;
+use plfort\GroovesharkAPI\GroovesharkException;
 
 class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 
@@ -33,7 +34,6 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
 			$this->logger->err($ex);
 		}
 
-
         if($results){
             return $this->parseResponse($results);
         }else{
@@ -42,8 +42,13 @@ class GroovesharkSongMusicSearch extends AbstractMusicSearch{
     }
 
     protected function executePopularQuery(){
-        $popularSongs= $this->gsApi->getPopularSongsToday();
-        //var_dump($popularSongs);die();
+        $popularSongs = array();
+        try{
+            $popularSongs= $this->gsApi->getPopularSongsToday();
+        }catch(GroovesharkException $ex){
+            $this->logger->err($ex);
+        }
+       
         return $this->parseResponse($popularSongs);
     }
 

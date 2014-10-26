@@ -4,16 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-        <parameter key="grooveshark.api.class">plfort\GroovesharkAPI\GroovesharkAPI</parameter>
+        <parameter key="grooveshark.api.class">Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPI</parameter>
     </parameters>
 		<services>
-		    
-		   <service id="grooveshark.api_factory" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkAPIFactory">
-              <argument type="string">%grooveshark.api.key%</argument>
-              <argument type="string">%grooveshark.api.secret%</argument>
-              <argument type="string">%grooveshark.api.class%</argument>
-              <argument type="service" id="service_container"/>
-		   </service>
 		   
 		   
 		   <service id="grooveshark_music.playlist_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Playlist\PlaylistRenderer">
@@ -22,10 +15,10 @@
                 <tag name="logger_aware"/>
            </service>
            
-           <service id="grooveshark_music.menu_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu\MenuItem">
+           <service id="grooveshark_music.menu_renderer" lazy="true" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Menu\MenuItem">
                 <tag name="cogimix.menu_item"/>
            </service>
-           <service id="grooveshark_music.widget_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget\WidgetRenderer">
+           <service id="grooveshark_music.widget_renderer" lazy="true" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Widget\WidgetRenderer">
                <argument type="service" id="grooveshark.api" />
                 <tag name="cogimix.widget_renderer"/>
            </service>
@@ -36,16 +29,19 @@
                 <tag name="cogimix.url_search" />
            </service>
            
-           <service id="grooveshark_music.modal_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal\ModalRenderer">
+           <service id="grooveshark_music.modal_renderer" lazy="true" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal\ModalRenderer">
                 <tag name="cogimix.modal_renderer"/>
            </service>
-           <service id="grooveshark_music.jsimport_renderer" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Javascript\JavascriptImportRenderer">
+           <service id="grooveshark_music.jsimport_renderer" lazy="true" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Javascript\JavascriptImportRenderer">
                 <tag name="cogimix.jsimport_renderer"/>
            </service>
-           <service id="grooveshark_music.result_builder" class="Cogipix\CogimixGroovesharkBundle\Services\ResultBuilder"></service>
+           <service id="grooveshark_music.result_builder" lazy="true" class="Cogipix\CogimixGroovesharkBundle\Services\ResultBuilder"></service>
 		   
-			<service id="grooveshark.api" factory-method="getGroovesharkAPI"
-			factory-service="grooveshark.api_factory" class="%grooveshark.api.class%">			    
+			<service id="grooveshark.api" class="%grooveshark.api.class%">	
+			      <argument type="string">%grooveshark.api.key%</argument>
+              	  <argument type="string">%grooveshark.api.secret%</argument>	
+              	  <argument type="service" id="session"/>	    
+              	 
 			</service>
            <service id="grooveshark_music.search_service" parent="abstract_music_search" class="Cogipix\CogimixGroovesharkBundle\Services\GroovesharkSongMusicSearch">
                 <argument type="service" id="grooveshark.api"/>

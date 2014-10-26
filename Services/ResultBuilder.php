@@ -6,7 +6,7 @@ use Cogipix\CogimixCommonBundle\ResultBuilder\ResultBuilderInterface;
 class ResultBuilder implements ResultBuilderInterface
 {
 
-    private $basePathThumbnails = 'http://images.gs-cdn.net/static/albums/200_album.png';
+    private $basePathThumbnails = 'http://images.gs-cdn.net/static/albums/200_';
     public function createFromGroovesharkTrack($groovesharkTrack)
     {
         $item =null;
@@ -15,7 +15,11 @@ class ResultBuilder implements ResultBuilderInterface
             $item->setEntryId($groovesharkTrack['SongID']);
             $item->setArtist($groovesharkTrack['ArtistName']);
             $item->setTitle($groovesharkTrack['SongName']);
-            $item->setThumbnails($this->basePathThumbnails.$groovesharkTrack['CoverArtFilename']);
+            $cover = 'album.png';
+            if(isset($groovesharkTrack['CoverArtFilename']) && !empty($groovesharkTrack['CoverArtFilename'])){
+                $cover = $groovesharkTrack['CoverArtFilename'];
+            }
+            $item->setThumbnails($this->basePathThumbnails.$cover);
             $item->setTag($this->getResultTag());
             $item->setIcon($this->getDefaultIcon());
 
