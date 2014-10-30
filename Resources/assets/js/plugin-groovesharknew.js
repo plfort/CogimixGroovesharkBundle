@@ -173,10 +173,7 @@ $("body").on('musicplayerReady',function(event){
 });
 
 $(document).ready(function(){
-	
-	$(document).on('click','#loginGroovesharkBtn',function(event){
-		$("#modalLoginGroovehsark").modal("toggle");
-	});
+
 	
 	$("#playlist-container").on('click','.showPlaylistGroovesharkBtn',function(event){
 		var playlistElement = $(this).closest('.gs-playlist-item');
@@ -209,13 +206,11 @@ $(document).ready(function(){
 		return false;
 	});
 	$("#grooveshark-menu").on('click','#loginGroovesharkBtn',function(event){
-	 	 $.get(Routing.generate('_grooveshark_login'),
-            	 function(response){
-    		    if(response.success==true){
-    		    	 $("#loginGroovesharkModal .modal-body").html(response.data.htmlForm);
-    		    	 $("#loginGroovesharkModal").modal('toggle');
-        		    }
-        	 },'json');
+		$.get(Routing.generate('_grooveshark_get_oauth_login_url'),function(response){
+			if(response.success == true){
+				 window.open(response.data.authUrl,"login_grooveshark_popup","left=300,location=false,menubar=no, status=no, scrollbars=no, menubar=no, width=800, height=600");
+			}
+		},'json');
     	    return false;
 		
 	});
@@ -233,30 +228,6 @@ $(document).ready(function(){
 		
 	});
 
-	 $("#loginGroovesharkModal").on('submit','form',function(event){
-		var postData = $(this).serializeArray();
-		
-		$.each(postData,function(key,input){
-			if(input.name =='cogimix_grooveshark_login[password]'){
-				input.value=hex_md5(input.value);
-			}
-		});
-		 $.post(Routing.generate('_grooveshark_login'),
-				 postData,
-        		 function(response){
-			    if(response.success==true){
-			    	 $("#loginGroovesharkModal").modal('toggle');
-			    	 $("#gs-playlist-container").empty();
-			    	 $("#gs-playlist-container").replaceWith(response.data.playlistsHtml);
-			    	 $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
-			    	 $("#loginGroovesharkBtn").replaceWith(response.data.logoutLink);
-    			}else{
-    				 $("#loginGroovesharkModal > .modal-body").html(response.data.htmlForm);
-        		}
-    		 },'json');
-
-		    return false;
-     });
     $(".gs-playlist-item").draggable(draggableOptionsPlaylistListItem);
 });
 

@@ -30,6 +30,12 @@ class GroovesharkSession
      * @var unknown_type
      */
     protected $sessionId;
+    
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     * @var unknown
+     */
+    protected $token;
 
     public function getId()
     {
@@ -57,5 +63,17 @@ class GroovesharkSession
     {
         $this->sessionId = $sessionId;
     }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+ 
 
 }

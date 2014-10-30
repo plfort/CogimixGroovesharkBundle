@@ -29,9 +29,6 @@
                 <tag name="cogimix.url_search" />
            </service>
            
-           <service id="grooveshark_music.modal_renderer" lazy="true" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Modal\ModalRenderer">
-                <tag name="cogimix.modal_renderer"/>
-           </service>
            <service id="grooveshark_music.jsimport_renderer" lazy="true" class="Cogipix\CogimixGroovesharkBundle\ViewHooks\Javascript\JavascriptImportRenderer">
                 <tag name="cogimix.jsimport_renderer"/>
            </service>
