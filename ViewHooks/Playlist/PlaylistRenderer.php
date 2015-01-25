@@ -54,4 +54,9 @@ class PlaylistRenderer implements PlaylistRendererInterface, LoggerAwareInterfac
 	public function setLogger($logger) {
 		$this->logger = $logger;
 	}
+
+	public function getRenderPlaylistsParameters()
+	{
+	    return array('playlists'=>$this->getPlaylists());
+	}
 }

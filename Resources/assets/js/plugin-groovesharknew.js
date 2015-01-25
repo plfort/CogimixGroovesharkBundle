@@ -173,12 +173,11 @@ $("body").on('musicplayerReady',function(event){
 });
 
 $(document).ready(function(){
-
 	
 	$("#playlist-container").on('click','.showPlaylistGroovesharkBtn',function(event){
 		var playlistElement = $(this).closest('.gs-playlist-item');
 		var playlistName = $(this).html();
-		var playlistAlias = playlistElement.data('alias');
+		
 		$.get(Routing.generate('_grooveshark_playlist_songs',{'id':playlistElement.data('id')}),function(response){
 			if(response.success == true){
 				$pane.playlist.content.html(render('playlistExternalDetailSkeletonTpl',{'playlist':{name:playlistName},'user':currentUser}));
